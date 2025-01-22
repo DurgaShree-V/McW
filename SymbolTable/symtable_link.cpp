@@ -1,3 +1,4 @@
+//symtable_link.cpp
 #include <iostream>
 #include "symtable.h"
 
@@ -5,6 +6,15 @@ using namespace std;
 
 SymTable::SymTable(){
     head = NULL;
+}
+
+SymTable::~SymTable(){
+    Node *del_node = NULL;
+    while(head!=NULL){
+        del_node = head;
+        head = head->next;
+        delete del_node;
+    }
 }
 
 string SymTable::SymTable_get(string key_search){
@@ -18,6 +28,17 @@ string SymTable::SymTable_get(string key_search){
     return "Not Found";
 }
 
+bool SymTable::SymTable_contains(string key_to_search){
+    Node *temp = head;
+    while(temp!=NULL){
+        if(temp->key == key_to_search){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
 int SymTable::SymTable_getLength(){
     int len = 0;
     Node *temp = head; 
@@ -28,59 +49,64 @@ int SymTable::SymTable_getLength(){
     return len;
 }
 
-void SymTable::SymTable_replace(string key_check, string val){
+string SymTable::SymTable_replace(string key_check, string val){
     Node *temp = head;
     while(temp!=NULL){
         if(temp->key == key_check){
             temp->value = val;
+            return "Replaced";
         }
         temp = temp->next;
     }
+    return "Key Not found";
 }
 
 void SymTable::SymTable_put(string key_to_insert, string val){
     Node *temp = head;
+
     Node *newNode = new Node();
     newNode->key = key_to_insert;
     newNode->value = val;
     newNode->next = NULL;
+
     if(head ==  NULL){
         head = newNode;
-        return;
     }
     else{
-        while(temp->next!=NULL){
-            if(temp->key == key_to_insert){
-                temp->value = val;
-                return;
-            }
-            temp = temp->next;
+        if(SymTable_contains(key_to_insert)==1){
+            cout << "Already exists" << endl;
+            return;
         }
-        temp->next = newNode;
+        while(temp!=NULL){
+            temp = temp ->next;
+        }
+        temp = newNode;
+        delete newNode;
     }
 }
 
-void SymTable::SymTable_remove(string key_to_delete){
+string SymTable::SymTable_remove(string key_to_delete){
     Node *temp = head;
-    Node *del_node = NULL;
-    Node *prev = temp;
-    if(head->key == key_to_delete){
-        del_node = head;
+    Node *prev = NULL;
+
+    if(head!=NULL && head->key == key_to_delete){
         head = head->next;
+        delete temp;
+        return "Deleted";
     }
     else{
         while(temp!=NULL){
             if(temp->key == key_to_delete){
-                cout << "The value at " << temp->key << " is " << temp->value << endl;
-                del_node = temp->next;
+                //cout << "The value at " << temp->key << " is " << temp->value << endl;
                 prev->next = temp->next->next;
-                break;
+                delete temp;
+                return "Deleted";
             }
             prev = temp;
             temp = temp->next;
         }
-        delete del_node;   
     }
+    return "Key Not found";
 }
 
 void SymTable::SymTable_display(){

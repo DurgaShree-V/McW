@@ -14,18 +14,21 @@ class SymTable{
     Node *head;
     public:
         SymTable();
+        ~SymTable();
 
-        string SymTable_get (string key_search);
+        string SymTable_get(string key_search);
 
-        int SymTable_getLength ();
+        bool SymTable_contains(string key_to_search);
 
-        void SymTable_replace (string key_check, string val);
+        int SymTable_getLength();
+
+        string SymTable_replace(string key_check, string val);
 
         void SymTable_put(string key_to_insert,string val);
 
-        void SymTable_remove (string key_to_delete);
+        string SymTable_remove(string key_to_delete);
 
-        void SymTable_display ();
+        void SymTable_display();
 };
 
 #endif
