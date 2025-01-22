@@ -53,7 +53,8 @@ This project implements a simple **Symbol Table** in C++ using a linked list str
 
 3. Create a build directory and navigate to it:
     ```bash
-    mkdir build && cd build
+    mkdir build
+    cd build
     ```
 
 4. Run CMake to configure the build:
