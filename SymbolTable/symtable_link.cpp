@@ -77,11 +77,10 @@ void SymTable::SymTable_put(string key_to_insert, string val){
             cout << "Already exists" << endl;
             return;
         }
-        while(temp!=NULL){
-            temp = temp ->next;
+        while(temp->next!=NULL){
+            temp = temp->next;
         }
-        temp = newNode;
-        delete newNode;
+        temp->next = newNode;
     }
 }
 
